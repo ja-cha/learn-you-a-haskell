@@ -32,12 +32,13 @@ makeBuddy :: String -> String -> Int -> Float -> Buddy
 makeBuddy = Buddy
 
 -- Record Type
-data Person = Person { firstName :: String  
-                     , lastName :: String  
-                     , age :: Int  
-                     , height :: Float  
-                     ,phone :: String
-                     } deriving (Show, Eq)
+data Person = Person
+  { firstName :: String
+  , lastName  :: String
+  , age       :: Int
+  , height    :: Float
+  , phone     :: String
+  } deriving (Show, Eq)
 
 makePerson :: String -> String -> Int -> Float -> String -> Person
-makePerson = Person                     
+makePerson = Person

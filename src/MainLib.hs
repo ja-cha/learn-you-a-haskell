@@ -2,7 +2,7 @@ module MainLib
   ( someFunc
   ) where
 
-import           Utils  (quicksort)
+import           Utils (quicksort)
 
 someFunc :: IO ()
 someFunc =
