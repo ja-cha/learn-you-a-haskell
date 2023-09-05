@@ -1,6 +1,10 @@
 import           Test.Hspec
 import           Typeclasses.Algebraic (Point (..), Shape (..), surface, Buddy(..), makeBuddy, Person(..), makePerson)
 
+
+buddysLastName :: Buddy -> String  
+buddysLastName (Buddy _ ln _ _) = ln 
+
 main :: IO ()
 main =
   hspec $ do
@@ -21,6 +25,4 @@ main =
       it "Data type: Person lastName Eq" $ do
         let person = makePerson "John"  "Doe" 34 175.3 "917 512 2767"    
         lastName person  `shouldBe` "Doe"
-
-buddysLastName :: Buddy -> String  
-buddysLastName (Buddy _ ln _ _) = ln  
+ 
