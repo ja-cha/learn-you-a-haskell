@@ -21,7 +21,7 @@ flip' :: (a -> b -> c) -> (b -> a -> c)
 flip' f x y = f y x
  
 addThreeNumbers :: (Num a) => a -> a -> a -> a
-addThreeNumbers = \x -> \y -> \z -> x + y + z
+addThreeNumbers = \x y z -> x + y + z
 
 numChainsWhere ::(Int -> Bool) -> Int  
 numChainsWhere paf  = length (filter predicate (map chain [1..100]))  
@@ -31,7 +31,7 @@ zipWithLambda :: (Num a) =>  (a -> a -> a) ->[a]
 zipWithLambda w  =  zipWith w [1,2,3,4,5]  [5,4,3,2,2]  
 
 twoRowComposition :: (Num a, Integral a, Ord a) => [a]
-twoRowComposition = filter (\n -> n `mod` 2  == 0) . takeWhile (<=20) $ [1,2..]    
+twoRowComposition = filter (\n -> even n) . takeWhile (<=20) $ [1,2..]    
 
 oddSquareSumComposition :: Integer  
 oddSquareSumComposition = sum . takeWhile (<10000) . filter odd . map (^2) $ [1..]  
