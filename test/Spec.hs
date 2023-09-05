@@ -1,12 +1,5 @@
-import           Control.Exception (evaluate)
 import           Test.Hspec
-
-import           Test.QuickCheck
-     
 import Utils (quicksort, largestDivisible, factorial', flip', addThreeNumbers, numChainsWhere, zipWithLambda, twoRowComposition, oddSquareSumComposition, oddSquareSumBindings)
- 
-import Test.QuickCheck.Test (localMin)
-import Utils (largestDivisible)
 
 main :: IO ()
 main =
