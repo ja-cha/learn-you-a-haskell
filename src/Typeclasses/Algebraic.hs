@@ -18,7 +18,7 @@ module Typeclasses.Algebraic
   , reverse'
   , Tree(..)
   , treeInsert
-  , treeElem
+  ,treeElem
   ) where
 
 import qualified Data.Map as Map
