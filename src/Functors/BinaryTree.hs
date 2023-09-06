@@ -9,7 +9,6 @@ instance Functor BinaryTree where
 -- BinaryTree of type a
 data BinaryTree a
   = Empty
-  | Leaf a
   | Node (BinaryTree a) a (BinaryTree a)
   deriving (Show, Read, Eq)
 
@@ -26,5 +25,4 @@ treeInsert value (Node left a right)
  
 treeMap :: (a -> b) -> BinaryTree a -> BinaryTree b
 treeMap f Empty = Empty
-treeMap f (Leaf a) = Leaf (f a)
 treeMap f (Node left a right) = Node (treeMap f left) (f a) (treeMap f right)
