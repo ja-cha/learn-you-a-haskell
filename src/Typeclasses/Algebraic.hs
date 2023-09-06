@@ -12,9 +12,13 @@ module Typeclasses.Algebraic
   , inPhoneBook
   , lockerLookup
   , lockers
+  , List(..)
+  , head'
+  , tail'
+  , reverse'
   ) where
 
-import qualified Data.Map as Map  
+import qualified Data.Map as Map
 
 
 -- A typeclass is a sort of interface that defines some behavior.
@@ -29,11 +33,13 @@ data Point =
   Point Float Float
   deriving (Show)
 
+
 -- Algebraic Type
 data Shape
   = Circle Point Float
   | Rectangle Point Point
   deriving (Show)
+
 
 --
 -- When we derive the Eq instance for a type and then try to compare two values of that type with == or /=,
@@ -45,6 +51,7 @@ data Shape
 data Buddy =
   Buddy String String Int Float
   deriving (Eq, Show, Read)
+
 
 -- Value Constructor using Record Syntax
 data Person = Person
@@ -65,52 +72,93 @@ makeBuddy = Buddy
 makePerson :: String -> String -> Int -> Float -> String -> Person
 makePerson = Person
 
--- Because all the value constructors are nullary (take no parameters, i.e. fields), we can make it part of the Enum typeclass. 
--- The Enum typeclass is for things that have predecessors and successors. We can also make it part of the Bounded typeclass, 
--- which is for things that have a lowest possible value and highest possible value. 
--- And while we're at it, let's also make it an instance of all the other derivable typeclasses and see what we can do with it.
 
-data Day = Monday | Tuesday | Wednesday | Thursday | Friday | Saturday | Sunday   
-           deriving (Eq, Ord, Show, Read, Bounded, Enum)  
+-- Because all the value constructors are nullary (take no parameters, i.e. fields), we can make it part of the Enum typeclass.
+-- The Enum typeclass is for things that have predecessors and successors. We can also make it part of the Bounded typeclass,
+-- which is for things that have a lowest possible value and highest possible value.
+-- And while we're at it, let's also make it an instance of all the other derivable typeclasses and see what we can do with it.
+data Day
+  = Monday
+  | Tuesday
+  | Wednesday
+  | Thursday
+  | Friday
+  | Saturday
+  | Sunday
+  deriving (Eq, Ord, Show, Read, Bounded, Enum)
+
 
 --  Type synonyms
---  Example: type String = [Char]  
+--  Example: type String = [Char]
+type PhoneNumber = String
 
-type PhoneNumber = String  
-type Name = String  
-type PhoneBook = [(Name,PhoneNumber)] 
+type Name = String
+
+type PhoneBook = [(Name, PhoneNumber)]
 
 phoneBook :: PhoneBook
-phoneBook =      
-    [("betty","555-2938")     
-    ,("bonnie","452-2928")     
-    ,("patsy","493-2928")     
-    ,("lucille","205-2928")     
-    ,("wendy","939-8282")     
-    ,("penny","853-2492")     
-    ]  
+phoneBook =
+  [ ("betty", "555-2938")
+  , ("bonnie", "452-2928")
+  , ("patsy", "493-2928")
+  , ("lucille", "205-2928")
+  , ("wendy", "939-8282")
+  , ("penny", "853-2492")
+  ]
 
-inPhoneBook :: Name -> PhoneNumber -> PhoneBook -> Bool  
-inPhoneBook name pnumber pbook = (name,pnumber) `elem` pbook  
+inPhoneBook :: Name -> PhoneNumber -> PhoneBook -> Bool
+inPhoneBook name pnumber pbook = (name, pnumber) `elem` pbook
+ 
+-- left most value is conidered the lower ranking type
 
- -- left most value is conidered the lower ranking type 
-data LockerState = Taken | Free deriving (Show, Eq)  
-type Code = String  
-type LockerMap = Map.Map Int (LockerState, Code)  
+data LockerState
+  = Taken
+  | Free
+  deriving (Show, Eq)
 
-lockerLookup :: Int -> LockerMap -> Either String Code  
-lockerLookup number map =   
-    case Map.lookup number map of   
-        Nothing -> Left $ "Locker number " ++ show number ++ " doesn't exist!"  
-        Just (state, code) -> if state /= Taken   
-                                then Right code  
-                                else Left $ "Locker " ++ show number ++ " is already taken!"  
-lockers :: LockerMap  
-lockers = Map.fromList   
-    [(100,(Taken,"ZD39I"))  
-    ,(101,(Free,"JAH3I"))  
-    ,(103,(Free,"IQSA9"))  
-    ,(105,(Free,"QOTSA"))  
-    ,(109,(Taken,"893JJ"))  
-    ,(110,(Taken,"99292"))  
-    ]                                  
+type Code = String
+
+type LockerMap = Map.Map Int (LockerState, Code)
+
+lockerLookup :: Int -> LockerMap -> Either String Code
+lockerLookup number map =
+  case Map.lookup number map of
+    Nothing -> Left $ "Locker number " ++ show number ++ " doesn't exist!"
+    Just (state, code) ->
+      if state /= Taken
+        then Right code
+        else Left $ "Locker " ++ show number ++ " is already taken!"
+
+lockers :: LockerMap
+lockers =
+  Map.fromList
+    [ (100, (Taken, "ZD39I"))
+    , (101, (Free, "JAH3I"))
+    , (103, (Free, "IQSA9"))
+    , (105, (Free, "QOTSA"))
+    , (109, (Taken, "893JJ"))
+    , (110, (Taken, "99292"))
+    ]
+
+--
+-- Recursive data structures
+--
+infixr 5 :+
+data List a = None | a :+ (List a) deriving (Show, Read, Eq, Ord)
+
+infixr 5 .++
+(.++) :: List a -> List a -> List a   
+None .++ ys = ys  
+(x :+ xs) .++ ys = x :+ (xs .++  ys)  
+
+reverse' :: List a -> List a
+reverse' None = None
+reverse' (x :+ xs) = reverse' xs .++ x :+ None
+
+head' :: List a -> a
+head' None = error " cannot on empty"
+head' (x :+ _) = x
+
+tail' :: List a -> List a
+tail' None = error " cannot on empty"
+tail' (_ :+ xs) = xs

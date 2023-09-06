@@ -1,9 +1,10 @@
 import           Test.Hspec
-import           Typeclasses.Algebraic (Buddy (..), Day (..), Person (..),
-                                        PhoneBook, Point (..), Shape (..),
-                                        inPhoneBook, lockerLookup, lockers,
-                                        makeBuddy, makePerson, phoneBook,
-                                        surface)
+import           Typeclasses.Algebraic (Buddy (..), Day (..), List (..),
+                                        Person (..), PhoneBook, Point (..),
+                                        Shape (..), head', inPhoneBook,
+                                        lockerLookup, lockers, makeBuddy,
+                                        makePerson, phoneBook, reverse',
+                                        surface, tail')
 
 buddysLastName :: Buddy -> String
 buddysLastName (Buddy _ ln _ _) = ln
@@ -41,3 +42,15 @@ main =
         inPhoneBook "lucille" "205-2928" phoneBook `shouldBe` True
       it "lockerLookup 101 lockers `shouldBe` Right \"JAH3I\"" $ do
         lockerLookup 101 lockers `shouldBe` Right "JAH3I"
+      it "head' of  (1 :+ (2 :+ (3 :+ None))) `shouldBe` 1" $ do
+        let l1 = 1 :+ 2 :+ 3 :+ None
+        head' l1 `shouldBe` 1
+      it "tail' of  (1 :+ (2 :+ (3 :+ None))) `shouldBe` (2 :+ (3 :+ None))" $ do
+        let l1 = 1 :+ 2 :+ 3 :+ None
+        let l2 = 2 :+ 3 :+ None
+        tail' l1 `shouldBe` l2
+      it "reverse' (1 :+ (2 :+ (3 :+ None))) `shouldBe` (3 :+ (2 :+ (1 :+ None)))" $ do
+        let l1 = 1 :+ 2 :+ 3 :+ None
+        let l2 = 3 :+ 2 :+ 1 :+ None
+        reverse' l1 `shouldBe` l2
+        
