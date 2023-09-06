@@ -2,9 +2,10 @@ module Functors.BinaryTree
   (BinaryTree(..)
   ,treeInsert) where
 
+-- Make our BinaryTree an instance of the Functor type class
 instance Functor BinaryTree where
   fmap = treeMap
-  
+
 -- BinaryTree of type a
 data BinaryTree a
   = Empty
