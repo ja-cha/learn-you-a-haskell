@@ -21,8 +21,7 @@ treeInsert value (Node left a right)
   | value == a = Node left value right
   | value < a  = Node (treeInsert value left) a right
   | value > a  = Node left a (treeInsert value right)
-
- 
+  
 treeMap :: (a -> b) -> BinaryTree a -> BinaryTree b
 treeMap f Empty = Empty
 treeMap f (Node left a right) = Node (treeMap f left) (f a) (treeMap f right)

@@ -143,7 +143,6 @@ lockers =
     , (110, (Taken, "99292"))
     ]
 
-
 --
 -- Recursive data structures
 --
