@@ -1,60 +1,67 @@
 module Typeclasses.RecursiveDS
-  ( List(..)
+  ( CustomList(..)
   , head'
   , tail'
   , reverse'
-  , Tree(..)
+  , CustomTree(..)
   , treeInsert
   , treeElem
   ) where
 
+-- Make our CustomList an instance of the Functor type class
+instance Functor CustomList where
+  fmap = map'
 
 --
 -- Recursive data structures
 --
 infixr 5 :+
 
-data List a
+data CustomList a
   = None
-  | a :+ (List a)
+  | a :+ (CustomList a)
   deriving (Show, Read, Eq, Ord)
 
 infixr 5 .++
 
-(.++) :: List a -> List a -> List a
+(.++) :: CustomList a -> CustomList a -> CustomList a
 None .++ ys      = ys
 (x :+ xs) .++ ys = x :+ (xs .++ ys)
 
-reverse' :: List a -> List a
+reverse' :: CustomList a -> CustomList a
 reverse' None      = None
 reverse' (x :+ xs) = reverse' xs .++ x :+ None
 
-head' :: List a -> a
+head' :: CustomList a -> a
 head' None     = error " cannot on empty"
 head' (x :+ _) = x
 
-tail' :: List a -> List a
+tail' :: CustomList a -> CustomList a
 tail' None      = error " cannot on empty"
 tail' (_ :+ xs) = xs
 
+map' :: (a -> b) -> CustomList a -> CustomList b 
+map' f None = None
+map' f (x :+ xs) = f x :+ map' f xs
 
--- Tree of "any" type
-data Tree a
+
+-- CustomTree of "any" type
+data CustomTree a
   = EmptyTree
-  | Node (Tree a) a (Tree a)
+  | Node (CustomTree a) a (CustomTree a)
   deriving (Show, Read, Eq)
 
-singleton :: a -> Tree a
+singleton :: a -> CustomTree a
 singleton value = Node EmptyTree value EmptyTree
 
-treeInsert :: (Ord a) => a -> Tree a -> Tree a
+treeInsert :: (Ord a) => a -> CustomTree a -> CustomTree a
 treeInsert value EmptyTree = singleton value
 treeInsert value (Node left a right)
   | value == a = Node left value right
   | value < a  = Node (treeInsert value left) a right
   | value > a  = Node left a (treeInsert value right)
 
-treeElem :: (Ord a) => a -> Tree a -> Bool
+treeElem :: (Ord a) => a -> CustomTree a -> Bool
 treeElem value EmptyTree = False
 treeElem value (Node left a right)
   | value == a = True

@@ -1,12 +1,12 @@
 import           Test.Hspec
-import           Typeclasses.RecursiveDS (List (..), Tree (..), head',
+import           Typeclasses.RecursiveDS (CustomList (..), CustomTree (..), head',
                                               reverse', tail', treeElem,
                                               treeInsert)
 
 main :: IO ()
 main =
   hspec $ do
-    describe ">>>>>> List <<<<<<" $ do
+    describe ">>>>>> Custom List <<<<<<" $ do
       it "head' of  (1 :+ (2 :+ (3 :+ None))) `shouldBe` 1" $ do
         let l1 = 1 :+ 2 :+ 3 :+ None
         head' l1 `shouldBe` 1
@@ -19,7 +19,12 @@ main =
         let l1 = 1 :+ 2 :+ 3 :+ None
         let l2 = 3 :+ 2 :+ 1 :+ None
         reverse' l1 `shouldBe` l2
-    describe ">>>>>> Tree <<<<<<" $ do
+      it
+        "fmap (*2) (1 :+ (2 :+ (3 :+ None))) `shouldBe` (2 :+ (4 :+ (6 :+ None)))" $ do
+        let l1 = 1 :+ 2 :+ 3 :+ None
+        let l2 = 2 :+ 4 :+ 6 :+ None
+        fmap (*2) l1 `shouldBe` l2  
+    describe ">>>>>> Custom Tree <<<<<<" $ do
       it
         "treeInsert  `shouldBe` Node (Node EmptyTree 1 EmptyTree) 2 (Node EmptyTree 3 EmptyTree)" $ do
         let nums = [3, 1, 2]
