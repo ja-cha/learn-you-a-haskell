@@ -1,4 +1,4 @@
-module Functors.BinaryTree
+module Typeclasses.BinaryTreeFunctor
   (BinaryTree(..)
   ,treeInsert) where
 

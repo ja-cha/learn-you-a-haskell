@@ -12,17 +12,10 @@ module Typeclasses.Algebraic
   , inPhoneBook
   , lockerLookup
   , lockers
-  , List(..)
-  , head'
-  , tail'
-  , reverse'
-  , Tree(..)
-  , treeInsert
-  ,treeElem
+ 
   ) where
 
 import qualified Data.Map as Map
-
 
 -- A typeclass is a sort of interface that defines some behavior.
 -- If a type is a part of a typeclass, that means that it supports and implements the behavior the typeclass describes.
@@ -43,7 +36,6 @@ data Shape
   | Rectangle Point Point
   deriving (Show)
 
-
 --
 -- When we derive the Eq instance for a type and then try to compare two values of that type with == or /=,
 -- Haskell will see if the value constructors match (there's only one value constructor here though)
@@ -54,7 +46,6 @@ data Shape
 data Buddy =
   Buddy String String Int Float
   deriving (Eq, Show, Read)
-
 
 -- Value Constructor using Record Syntax
 data Person = Person
@@ -90,7 +81,6 @@ data Day
   | Sunday
   deriving (Eq, Ord, Show, Read, Bounded, Enum)
 
-
 --  Type synonyms
 --  Example: type String = [Char]
 type PhoneNumber = String
@@ -111,7 +101,6 @@ phoneBook =
 
 inPhoneBook :: Name -> PhoneNumber -> PhoneBook -> Bool
 inPhoneBook name pnumber pbook = (name, pnumber) `elem` pbook
-
 
 -- left most value is conidered the lower ranking type
 data LockerState
@@ -142,54 +131,3 @@ lockers =
     , (109, (Taken, "893JJ"))
     , (110, (Taken, "99292"))
     ]
-
---
--- Recursive data structures
---
-infixr 5 :+
-
-data List a
-  = None
-  | a :+ (List a)
-  deriving (Show, Read, Eq, Ord)
-
-infixr 5 .++
-
-(.++) :: List a -> List a -> List a
-None .++ ys      = ys
-(x :+ xs) .++ ys = x :+ (xs .++ ys)
-
-reverse' :: List a -> List a
-reverse' None      = None
-reverse' (x :+ xs) = reverse' xs .++ x :+ None
-
-head' :: List a -> a
-head' None     = error " cannot on empty"
-head' (x :+ _) = x
-
-tail' :: List a -> List a
-tail' None      = error " cannot on empty"
-tail' (_ :+ xs) = xs
-
--- Tree of "any" type
-data Tree a
-  = EmptyTree
-  | Node (Tree a) a (Tree a)
-  deriving (Show, Read, Eq)
-
-singleton :: a -> Tree a
-singleton value = Node EmptyTree value EmptyTree
-
-treeInsert :: (Ord a) => a -> Tree a -> Tree a
-treeInsert value EmptyTree = singleton value
-treeInsert value (Node left a right)
-  | value == a = Node left value right
-  | value < a  = Node (treeInsert value left) a right
-  | value > a  = Node left a (treeInsert value right)
-
-treeElem :: (Ord a) => a -> Tree a -> Bool  
-treeElem value EmptyTree = False  
-treeElem value (Node  left a right)  
-    | value == a = True  
-    | value  < a  = treeElem value left  
-    | value  > a  = treeElem value right 

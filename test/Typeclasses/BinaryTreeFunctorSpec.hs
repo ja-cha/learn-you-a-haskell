@@ -1,10 +1,10 @@
-import           Functors.BinaryTree (BinaryTree (..), treeInsert)
+import           Typeclasses.BinaryTreeFunctor (BinaryTree (..), treeInsert)
 import           Test.Hspec
 
 main :: IO ()
 main =
   hspec $ do
-    describe ">>>>>> Functors <<<<<<" $ do
+    describe ">>>>>> Binary Tree Functor <<<<<<" $ do
       it "Binary Tree treeInsert" $ do 
         let items = [1,3,2]
         let t = foldr treeInsert Empty items
