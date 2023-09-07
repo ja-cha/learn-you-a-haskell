@@ -2,6 +2,7 @@ module Typeclasses.Custom
   ( CustomEq(..)
   , TrafficLight(..)
   , Option(..)
+  , Try(..)
   ) where
 
 
@@ -41,11 +42,11 @@ instance Show TrafficLight
   show Yellow = "Yellow light"
   show Green  = "Green light"
 
-data Option a
-  = Some a
-  | None
-  deriving (Show, Read, Eq)
+data Option a = Some a | None deriving (Show, Eq)
 
+
+-- A Functor f provides a function "fmap" which, given any types a and b
+-- lets you apply any function from (a -> b)  to turn an f a into an f b
 instance Functor Option
  where
   fmap = optionMap
@@ -53,3 +54,19 @@ instance Functor Option
 optionMap :: (a -> b) -> Option a -> Option b
 optionMap f None     = None
 optionMap f (Some x) = Some (f x)
+
+data Try a b= Failure a | Success b deriving (Show, Eq)
+
+instance Functor (Try a)
+ where
+  fmap = tryMap
+
+
+-- we made "Try a" an instance of the Functor typeclass, not "Try a b".
+-- That is because the Functor typeclass wants a type constructor that takes only one type parameter.
+-- When we partially apply Try by using only "Try a", we satisfy the Functor requirement.
+-- If fmap was specifically for "Try a", the type signature would then be
+-- (b -> c) -> (Try a) b -> (Try a) c.
+tryMap :: (b -> c) -> (Try a) b -> (Try a) c
+tryMap f (Success x) = Success (f x)
+tryMap f (Failure x) = Failure x

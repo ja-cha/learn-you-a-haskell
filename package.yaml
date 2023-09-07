@@ -51,7 +51,7 @@ executables:
     - hindent
 tests:
   learn-you-a-haskell-test:
-    main:                Spec.hs
+    main:                UtilsSpec.hs
     source-dirs:         test
     ghc-options:
     - -threaded
@@ -61,5 +61,6 @@ tests:
     - learn-you-a-haskell
     - hindent
     - hspec
+    - hspec-expectations
     - QuickCheck
    
