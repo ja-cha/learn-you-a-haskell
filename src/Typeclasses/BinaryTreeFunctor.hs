@@ -6,7 +6,7 @@ module Typeclasses.BinaryTreeFunctor
 instance Functor BinaryTree where
   fmap = treeMap
 
--- BinaryTree of type a
+-- BinaryTree data type 
 data BinaryTree a
   = Empty
   | Node (BinaryTree a) a (BinaryTree a)

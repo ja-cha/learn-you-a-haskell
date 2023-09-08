@@ -7,11 +7,11 @@ module Typeclasses.Custom
 
 
 -- defining a new typeclass  called CustomEq
--- "equatable" is the type variable, a stand-in for the type that we will soon be making an instance of
-class CustomEq equatable
+-- "e" is the type variable, a stand-in for the type that we will soon be making an instance of
+class CustomEq e
  where
-  (===) :: equatable -> equatable -> Bool
-  (/==) :: equatable -> equatable -> Bool
+  (===) :: e -> e -> Bool
+  (/==) :: e -> e -> Bool
   x === y = not (x /== y)
   x /== y = not (x === y)
 
@@ -57,6 +57,7 @@ optionMap f (Some x) = Some (f x)
 
 data Try a b= Failure a | Success b deriving (Show, Eq)
 
+-- lets "partially" apply the Try type constructor, just like a function
 instance Functor (Try a)
  where
   fmap = tryMap
