@@ -1,7 +1,8 @@
 # learn-you-a-haskell
 
-## First Principles
+#### First Principles
 
+# Keywords 
 * `data` is used for declaring data types 
 * `class` is used for defining type classes
 * `instance` is used for implementing type class instances for specific data types
@@ -59,3 +60,23 @@ type Age = Int
 ```
 
 ---
+
+# Concepts
+
+## concrete data type
+
+  * is a data type that represents values with a fixed, specific structure and behavior.
+  * instances of concrete data types are actual values with defined characteristics.
+    - **predefined** data types: `Int`, `Bool`, 
+    - **custom** data types are defined using the `data` keyword, such as `data Color = Red | Green | Blue`
+  * are used to create values and perform operations specific to those types
+
+## data type constructor
+
+  * is a parameterized data type that can accept type arguments to create new, parameterized types.
+  * used to create more abstract or polymorphic data types that work with different types of values.
+     - **predefined** data type constructors: `[]` (used to create lists), `(->)` (used to represent function types)
+     - **custom** data type constructors are defined using the `data` keyword, such as 
+     ```haskell
+      data BinaryTree a = Empty | Node (BinaryTree a) a (BinaryTree a)
+     ```
