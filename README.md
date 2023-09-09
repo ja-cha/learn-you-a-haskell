@@ -21,9 +21,9 @@
 
   ---
 
-  ## class
+  ## type class
   * The `class` keyword is used to declare type classes. 
-  * Declares a set of functions that can be implemented by one or more data types. 
+  * is a way to define a set of behaviors or functions that can be implemented by one or more data types. 
   * Provides a way to define common behavior for different data types.
  
     ```haskell
@@ -67,7 +67,8 @@
   ---
   
   ## concrete data type
-
+    
+    * a concrete type is a type that doesn't take any type parameters
     * is a data type that represents values with a fixed, specific structure and behavior.
     * instances of concrete data types are actual values with defined characteristics.
       - **predefined** data types: `Int`, `Bool`, 
@@ -94,17 +95,63 @@
 
 
   `*` (Star Kind)
-    * This is the kind of types that represent values. 
+    * This is the `kind` of types that represent concrete types. 
       - For example, `Int` and `String` have kind `*`
 
   `* -> *` (Arrow Kind)
-    * This kind represents type constructors that take one type argument to produce another type. 
-      - For example, the list type constructor `[]` has kind `* -> *` because it takes a type (e.g., `Int`) and produces a new type (e.g., `[Int]`).
+    * This `kind` represents type constructors that take one type argument to produce another type. 
+      - For example, the `Maybe` type constructor has kind `* -> *` because it takes a concrete type (e.g., `Int`) and produces another concrete type (e.g., `Int`).
 
   `* -> * -> *` (Higher-Order Kind)
     * Some type constructors take multiple type arguments. 
-      - For instance, the `Either` type constructor has kind `* -> * -> *` because it takes two types to produce a result type.
+      - For instance, the `Either` type constructor has `kind` `* -> * -> *` because it takes two types to produce a result type.
 
   `Constraint`
-    * This kind represents type classes. 
-      - For example, the kind of the `Eq` type class is Constraint.
+    * This `kind` represents type classes. 
+      - For example, the `kind` of the `Eq` type class is `Constraint`.
+
+
+## Example
+
+
+  declare a `type class` named `Transformer` with a single type parameter `t`
+    
+  ```haskell
+    class Transformer t where  ...
+  ```
+       
+  define a function `transform` that takes an argument of type a b (where a and b are type parameters) and returns a value of type t a b. 
+  In other words, it defines a method that can transform an `a b` into  `t` of `a b`.
+  ```haskell
+     ...   transform :: a b -> t a b  
+  ```  
+
+  define a data type named `Frank` with two type parameters `a` and `b`. 
+  It has a single `constructor` called `Frank`, which has a field named `frankField` of type `a b`. 
+  This data type is essentially a container that holds a value of type a b.
+  ```haskell
+    data Frank a b  = Frank {frankField :: a b} deriving (Show)  
+  ``` 
+
+  declare an `instance` of the `Transformer type class` for the `Frank data type`. 
+  It means that we're providing an `implementation` of the `transform` function specifically for the `Frank data type`.
+  ```haskell
+    instance Transformer Frank where  ...
+  ```
+   
+  implement the `transform` function for the `Frank data type`. 
+  its `argument x` is of `type a b` and applies it to the `Frank constructor`, 
+  effectively `transforming` it into a value of type `Frank a b`. 
+  ```haskell
+     ...   transform x = Frank x  
+  ```  
+
+---
+### Output
+```haskell
+  ghci> transform (Just 'A') :: Frank Maybe Char
+        Frank {frankField = Just 'A'}
+  ghci> 
+  ghci> transform ( Node Empty 'A' Empty) :: Frank BinaryTree Char
+        Frank {frankField = Node Empty 'A' Empty}
+```
