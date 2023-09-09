@@ -120,7 +120,7 @@
     class Transformer t where  ...
   ```
        
-  define a function `transform` that takes an argument of type a b (where a and b are type parameters) and returns a value of type t a b. 
+  define a function `transform` that takes an argument of type a b (where `a b` is a `type constructor`) and returns a value of type t a b. 
   In other words, it defines a method that can transform an `a b` into  `t` of `a b`.
   ```haskell
      ...   transform :: a b -> t a b  
