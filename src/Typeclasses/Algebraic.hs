@@ -12,10 +12,10 @@ module Typeclasses.Algebraic
   , inPhoneBook
   , lockerLookup
   , lockers
- 
   ) where
 
 import qualified Data.Map as Map
+
 
 -- A typeclass is a sort of interface that defines some behavior.
 -- If a type is a part of a typeclass, that means that it supports and implements the behavior the typeclass describes.
@@ -36,6 +36,7 @@ data Shape
   | Rectangle Point Point
   deriving (Show)
 
+
 --
 -- When we derive the Eq instance for a type and then try to compare two values of that type with == or /=,
 -- Haskell will see if the value constructors match (there's only one value constructor here though)
@@ -46,6 +47,7 @@ data Shape
 data Buddy =
   Buddy String String Int Float
   deriving (Eq, Show, Read)
+
 
 -- Value Constructor using Record Syntax
 data Person = Person
@@ -81,6 +83,7 @@ data Day
   | Sunday
   deriving (Eq, Ord, Show, Read, Bounded, Enum)
 
+
 --  Type synonyms
 --  Example: type String = [Char]
 type PhoneNumber = String
@@ -101,6 +104,7 @@ phoneBook =
 
 inPhoneBook :: Name -> PhoneNumber -> PhoneBook -> Bool
 inPhoneBook name pnumber pbook = (name, pnumber) `elem` pbook
+
 
 -- left most value is conidered the lower ranking type
 data LockerState

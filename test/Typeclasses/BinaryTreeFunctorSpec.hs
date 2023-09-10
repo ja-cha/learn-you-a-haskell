@@ -1,3 +1,6 @@
+module Typeclasses.BinaryTreeFunctorSpec() where
+
+
 import           Typeclasses.BinaryTreeFunctor (BinaryTree (..), treeInsert)
 import           Test.Hspec
 

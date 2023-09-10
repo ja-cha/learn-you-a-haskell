@@ -1,5 +1,4 @@
-module Typeclasses.RecursiveDS
-  ( CustomList(..)
+module Typeclasses.RecursiveDS( CustomList(..)
   , head'
   , tail'
   , reverse'

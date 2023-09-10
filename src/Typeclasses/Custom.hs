@@ -42,7 +42,10 @@ instance Show TrafficLight
   show Yellow = "Yellow light"
   show Green  = "Green light"
 
-data Option a = Some a | None deriving (Show, Eq)
+data Option a
+  = Some a
+  | None
+  deriving (Show, Eq)
 
 
 -- A Functor f provides a function "fmap" which, given any types a and b
@@ -55,7 +58,11 @@ optionMap :: (a -> b) -> Option a -> Option b
 optionMap f None     = None
 optionMap f (Some x) = Some (f x)
 
-data Try a b= Failure a | Success b deriving (Show, Eq)
+data Try a b
+  = Failure a
+  | Success b
+  deriving (Show, Eq)
+
 
 -- lets "partially" apply the Try type constructor, just like a function
 instance Functor (Try a)

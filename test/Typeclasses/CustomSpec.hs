@@ -1,3 +1,5 @@
+module Typeclasses.CustomSpec() where
+
 import           Test.Hspec
 import           Test.Hspec.Expectations
 import           Typeclasses.Custom (CustomEq (..), Option (..),

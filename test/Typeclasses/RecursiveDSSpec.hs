@@ -1,3 +1,5 @@
+module Typeclasses.RecursiveDSSpec() where
+
 import           Test.Hspec
 import           Typeclasses.RecursiveDS (CustomList (..), CustomTree (..), head',
                                               reverse', tail', treeElem,

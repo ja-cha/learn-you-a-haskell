@@ -1,9 +1,12 @@
-import           Test.Hspec
+module Typeclasses.AlgebraicSpec() where
+
+
 import           Typeclasses.Algebraic (Buddy (..), Day (..), Person (..),
                                         PhoneBook, Point (..), Shape (..),
                                         inPhoneBook, lockerLookup, lockers,
                                         makeBuddy, makePerson, phoneBook,
                                         surface)
+import           Test.Hspec
 
 buddysLastName :: Buddy -> String
 buddysLastName (Buddy _ ln _ _) = ln

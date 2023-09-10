@@ -1,5 +1,4 @@
-module MainLib
-  ( someFunc
+module MainLib ( someFunc
   ) where
 
 import           Utils (quicksort)

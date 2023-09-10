@@ -1,7 +1,9 @@
+module Typeclasses.TruthinessSpec() where
+
 import           Test.Hspec
 import           Typeclasses.Truthiness (Truthiness (..),  evalTruthiness )
 import           Typeclasses.BinaryTreeFunctor (BinaryTree (..), treeInsert)
-import Typeclasses.Custom(TrafficLight(..))
+import           Typeclasses.Custom(TrafficLight(..))
 
 
 main :: IO ()
