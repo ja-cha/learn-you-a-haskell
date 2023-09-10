@@ -1,4 +1,4 @@
-module TodoList () where
+module Basic.TodoList () where
 
 putTodo :: (Int, String) -> IO ()
 putTodo (n, todo) = putStrLn (show n ++ ": " ++ todo)
