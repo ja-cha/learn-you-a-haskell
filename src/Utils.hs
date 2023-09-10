@@ -19,7 +19,7 @@ quicksort (x:xs) =
    in smallerSorted ++ [x] ++ biggerSorted
 
 largestDivisible :: (Integral a) => a -> a
-largestDivisible divisor = head (filter p [100000,99999 ..])
+largestDivisible divisor = head (filter p [100000,99998 ..])
   where
     p x = x `mod` divisor == 0
 
