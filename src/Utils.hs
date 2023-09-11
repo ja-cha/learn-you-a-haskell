@@ -9,6 +9,7 @@ module Utils
   , twoRowComposition
   , oddSquareSumComposition
   , oddSquareSumBindings
+  , reversePolishNotation
   ) where
 
 quicksort :: (Ord a) => [a] -> [a]
@@ -26,7 +27,7 @@ largestDivisible divisor = head (filter p [100000,99999 ..])
 factorial' :: (Num i, Ord i) => i -> i
 factorial' number
   | number <= 0 = 1
-  | otherwise = number * factorial' (number - 1)
+  | otherwise   = number * factorial' (number - 1)
 
 flip' :: (a -> b -> c) -> (b -> a -> c)
 flip' f x y = f y x
@@ -42,7 +43,7 @@ numChainsWhere paf = length (filter predicate (map chain [1 .. 100]))
 zipWithLambda :: (Num a) => (a -> a -> a) -> [a]
 zipWithLambda w = zipWith w [1, 2, 3, 4, 5] [5, 4, 3, 2, 2]
 
-twoRowComposition :: (Integral a ) => [a]
+twoRowComposition :: (Integral a) => [a]
 twoRowComposition = filter (\n -> even n) . takeWhile (<= 20) $ [1,2 ..]
 
 oddSquareSumComposition :: Integer
@@ -59,13 +60,22 @@ chain :: (Integral a) => a -> [a]
 chain 1 = [1]
 chain n
   | even n = n : chain (n `div` 2)
-  | odd n = n : chain (n * 3 + 1)
+  | odd n  = n : chain (n * 3 + 1)
 
 calculateBMIs :: (RealFloat a) => [(a, a)] -> [a]
-calculateBMIs xs = [bmi | (weight, height) <- xs, let bmi = weight / height ^ 2]
+calculateBMIs xs = [bmi
+ | (weight, height) <- xs, let bmi = weight / height ^ 2]
 
 take' :: (Num i, Ord i) => i -> [a] -> [a]
 take' n _
   | n <= 0 = []
 take' _ [] = []
 take' n (x:xs) = x : take' (n - 1) xs
+
+
+reversePolishNotation :: (Num a, Read a) => String -> a  
+reversePolishNotation = head . foldl foldingFunction [] . words  
+    where   foldingFunction (x:y:ys) "*" = (x * y):ys  
+            foldingFunction (x:y:ys) "+" = (x + y):ys  
+            foldingFunction (x:y:ys) "-" = (y - x):ys  
+            foldingFunction xs numberString = read numberString:xs  
