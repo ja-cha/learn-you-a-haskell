@@ -1,5 +1,4 @@
-module Main
-  ( main
+module Main( main
   ) where
 
 import           MainLib
