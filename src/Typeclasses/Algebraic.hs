@@ -19,11 +19,16 @@ import qualified Data.Map as Map
 
 -- A typeclass is a sort of interface that defines some behavior.
 -- If a type is a part of a typeclass, that means that it supports and implements the behavior the typeclass describes.
--- Typeclass examples:  Eq, Ord, Enum, Bounded, Show, Read
+-- Typeclass examples:  Eq, Ord, Enum, Bounded, Show, Read, Functor, Applicative
 --
 -- Example: the Int type is an instance of the Eq typeclass because the Eq typeclass defines behavior for stuff that can be equated.
 -- And because integers can be equated, Int is a part of the Eq typeclass
 --
+-- The data keyword is for making your own data types. 
+-- They can have as many constructors and fields as you wish and can be used to implement any algebraic data type by yourself. 
+-- Everything from lists and Maybe-like types to trees.
+
+
 -- Algebraic Type
 data Point =
   Point Float Float
