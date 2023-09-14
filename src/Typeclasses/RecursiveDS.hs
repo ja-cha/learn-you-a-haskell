@@ -1,4 +1,5 @@
-module Typeclasses.RecursiveDS( CustomList(..)
+module Typeclasses.RecursiveDS
+  ( CustomList(..)
   , head'
   , tail'
   , reverse'
@@ -7,9 +8,12 @@ module Typeclasses.RecursiveDS( CustomList(..)
   , treeElem
   ) where
 
+
 -- Make our CustomList an instance of the Functor type class
-instance Functor CustomList where
+instance Functor CustomList
+ where
   fmap = map'
+
 
 --
 -- Recursive data structures
@@ -39,8 +43,8 @@ tail' :: CustomList a -> CustomList a
 tail' None      = error " cannot on empty"
 tail' (_ :+ xs) = xs
 
-map' :: (a -> b) -> CustomList a -> CustomList b 
-map' f None = None
+map' :: (a -> b) -> CustomList a -> CustomList b
+map' f None      = None
 map' f (x :+ xs) = f x :+ map' f xs
 
 

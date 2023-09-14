@@ -3,7 +3,7 @@ module Typeclasses.CustomSpec() where
 import           Test.Hspec
 import           Test.Hspec.Expectations
 import           Typeclasses.Custom (CustomEq (..), Option (..),
-                                     TrafficLight (..), Try (..))
+                                     TrafficLight (..), Try (..), Status (..))
 
 main :: IO ()
 main =
@@ -30,5 +30,10 @@ main =
         fmap (+ 3) (Failure "Sorry, this didn't work") `shouldBe`
           Failure "Sorry, this didn't work"
       it "fmap (+3) (Success 3 ) `shouldBe` Success (6)" $ do 
-        fmap (+ 3) (Success 3) `shouldBe` (Success 6 :: Try Int Int)
+        fmap (+ 3) (Success 3) `shouldBe` (Success 6 :: Try Int Int)        
+    describe ">>>>>> Custom Status<<<<<<" $ do
+      it
+        "[OK 200, OK 200, OK 200, OK 200, OK 200]" $ do
+         [fmap (\n -> ( (*2) ( (+99) n) ) )  (OK 1), fmap ((*2) . (+99)) (OK 1), OK ((*2) . (+99) $ 1) , OK (  (*2) ((+99) 1) ) , OK ( 2 * ( 99 + 1) )] `shouldBe` [OK 200, OK 200, OK 200, OK 200, OK 200]
+
           

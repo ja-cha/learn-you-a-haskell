@@ -73,9 +73,13 @@ take' _ [] = []
 take' n (x:xs) = x : take' (n - 1) xs
 
 
-reversePolishNotation :: (Num a, Read a) => String -> a  
+reversePolishNotation :: String -> Float
 reversePolishNotation = head . foldl foldingFunction [] . words  
     where   foldingFunction (x:y:ys) "*" = (x * y):ys  
             foldingFunction (x:y:ys) "+" = (x + y):ys  
             foldingFunction (x:y:ys) "-" = (y - x):ys  
+            foldingFunction (x:y:ys) "/" = (y / x):ys  
+            foldingFunction (x:y:ys) "^" = (y ** x):ys  
+            foldingFunction (x:xs) "ln" = log x:xs  
+            foldingFunction xs "sum" = [sum xs]  
             foldingFunction xs numberString = read numberString:xs  

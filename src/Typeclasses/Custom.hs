@@ -3,6 +3,7 @@ module Typeclasses.Custom
   , TrafficLight(..)
   , Option(..)
   , Try(..)
+  , Status(..)
   ) where
 
 
@@ -47,9 +48,8 @@ data Option a
   | None
   deriving (Show, Eq)
 
-
 -- A Functor f provides a function "fmap" which, given any types a and b
--- lets you apply any function from (a -> b)  to turn an f a into an f b
+-- lets you apply any function from (a -> b)  to turn a given functor f a into a functor f b
 instance Functor Option
  where
   fmap = optionMap
@@ -58,17 +58,21 @@ optionMap :: (a -> b) -> Option a -> Option b
 optionMap f None     = None
 optionMap f (Some x) = Some (f x)
 
+-- Making "Option" an instance of the "Applicative" typeclass so that we can map over functions that are in a "Functor" context
+instance Applicative Option where  
+    pure = Some  
+    None <*> _ = None  
+    (Some f) <*> something = fmap f something  
+
 data Try a b
   = Failure a
   | Success b
   deriving (Show, Eq)
 
-
 -- lets "partially" apply the Try type constructor, just like a function
 instance Functor (Try a)
  where
   fmap = tryMap
-
 
 -- we made "Try a" an instance of the Functor typeclass, not "Try a b".
 -- That is because the Functor typeclass wants a type constructor that takes only one type parameter.
@@ -76,5 +80,24 @@ instance Functor (Try a)
 -- If fmap was specifically for "Try a", the type signature would then be
 -- (b -> c) -> (Try a) b -> (Try a) c.
 tryMap :: (b -> c) -> (Try a) b -> (Try a) c
-tryMap f (Success x) = Success (f x)
 tryMap f (Failure x) = Failure x
+tryMap f (Success x) = Success (f x)
+ 
+
+data Status a
+  = Error | OK a 
+  deriving (Show, Eq)
+
+-- A Functor f provides a function "fmap" which, given any types a and b
+-- lets you apply any function from (a -> b)  to turn a given functor f a into a functor f b
+instance Functor Status
+ where
+  fmap = statusMap
+
+statusMap :: (a -> b) -> Status a -> Status b
+statusMap f Error  = Error
+statusMap f (OK x) = OK (f x)
+{- Function Composition
+   [OK ((*2) . (+99) $ 1) , OK (  (*2) ((+99) 1) ) , OK ( 2 * ( 99 + 1) )]
+   [OK 200, OK 200, OK 200]
+ -}
