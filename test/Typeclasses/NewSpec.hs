@@ -2,6 +2,7 @@ module Typeclasses.NewSpec() where
 
 import           Test.Hspec
 import           Typeclasses.New (Pair (..))
+import Control.Monad.Writer
 
 main :: IO ()
 main =
@@ -19,3 +20,4 @@ main =
                 , getPair (fmap (+ 3) (Pair (1, 1)))
                 ]
         r `shouldBe` True
+  
