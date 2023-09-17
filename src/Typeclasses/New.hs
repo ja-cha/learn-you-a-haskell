@@ -1,5 +1,6 @@
 module Typeclasses.New
-  ( Pair(..) )
+  ( Pair(..)
+  )
   {-
     The newtype keyword is for taking existing types and wrapping them in new types, mostly so that it's easier to make them instances of certain type classes.
     When we use newtype to wrap an existing type, the type that we get is separate from the original type.
@@ -20,7 +21,8 @@ module Typeclasses.New
     "newtpe" is lazily evaluated, while "data" is evluated eagerly.
     This can have implications if, say for example we wanted to let undefined values through:
 
-      
+
+
 -- example with eager evaluation
       data MyBool = MyBool { getValue :: Bool }
 
@@ -30,7 +32,8 @@ module Typeclasses.New
       ghci> helloMe undefined  -- will be evaluated right away and throw an exception
       "*** Exception: Prelude.undefined
 
-      
+
+
 -- example with lazy evaluation, via "newtype"
       newtype MyBool = MyBool { getValue :: Bool }
 
@@ -38,6 +41,9 @@ module Typeclasses.New
       "hello to you anyway"
 -}
    where
+import Control.Monad.State  
+import System.Random   
+
 
 -- flip the order of the tuple item
 newtype Pair l r = Pair
@@ -53,4 +59,22 @@ instance Functor (Pair p)
 -- getPair  (fmap (+3)   (Pair(1,1)))    = (4, 1)
 -- getPair  (fmap (+3) $  Pair(1,1))    = (4, 1)
 -- getPair $ fmap (+3) $  Pair (1,1)     = (4, 1)
+
+type Stack = [Int]  
+stackyStack :: State Stack ()  
+stackyStack = do  
+    stackNow <- get  
+    if stackNow == [1,2,3]  
+        then put [8,3,1]  
+        else put [9,2,1]  
+
  
+randomSt :: (RandomGen g, Random a) => State g a  
+randomSt = state random  -- shouldn't call "State" directly, use "state" function instead
+
+threeCoins :: State StdGen (Bool,Bool,Bool)  
+threeCoins = do  
+    a <- randomSt  
+    b <- randomSt  
+    c <- randomSt  
+    return (a,b,c) 
