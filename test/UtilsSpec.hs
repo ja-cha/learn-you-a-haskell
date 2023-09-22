@@ -39,8 +39,11 @@ main =
     describe "Bindings" $
       it "oddSquareSum using bindings " $ 166650 `shouldBe` oddSquareSumBindings
     describe "Reverse Polish notation" $
-      it "4037 = 90 34 12 33 55 66 + * - + - " $
-      4037 `shouldBe` reversePolishNotation "90 34 12 33 55 66 + * - + -"
+      it "Just 4037 = 90 34 12 33 55 66 + * - + - " $
+      Just 4037 `shouldBe` reversePolishNotation "90 34 12 33 55 66 + * - + -"
     describe "Reverse Polish notation 2" $
-      it "15 = 1 2 + 5 *" $
-      15 `shouldBe` reversePolishNotation "1 2 + 5 *"
+      it "Just 15 = 1 2 + 5 *" $
+      Just 15 `shouldBe` reversePolishNotation "1 2 + 5 *"
+    describe "Reverse Polish notation 2" $
+      it "Nothing = 1 2 * 4" $
+       Nothing `shouldBe` reversePolishNotation "1 2 * 4"

@@ -12,6 +12,8 @@ module Utils
   , reversePolishNotation
   ) where
 
+import Control.Monad
+
 quicksort :: (Ord a) => [a] -> [a]
 quicksort [] = []
 quicksort (x:xs) =
@@ -71,17 +73,28 @@ take' n _
   | n <= 0 = []
 take' _ [] = []
 take' n (x:xs) = x : take' (n - 1) xs
--- accumulated thus far -> current item -> updated accumulated
-flHandler :: [Double] -> String -> [Double]  
-flHandler (x:y:ys) "*" = (x * y):ys  
-flHandler (x:y:ys) "+" = (x + y):ys  
-flHandler (x:y:ys) "-" = (y - x):ys  
-flHandler (x:y:ys) "/" = (y / x):ys  
-flHandler (x:y:ys) "^" = (y ** x):ys  
-flHandler (x:xs) "ln" = log x:xs  
-flHandler xs "sum" = [sum xs]  
-flHandler xs currentItem = read currentItem:xs  
 
-reversePolishNotation :: String -> Double
---reversePolishNotation  w =  head (foldl flHandler [] (words w))
-reversePolishNotation =  head . foldl flHandler [] . words
+
+-- accumulated thus far -> current item -> updated accumulated
+flHandler :: [Double] -> String -> Maybe [Double]
+flHandler (x:y:ys) "*"   = Just ((x * y) : ys)
+flHandler (x:y:ys) "+"   = Just ((x + y) : ys)
+flHandler (x:y:ys) "-"   = Just ((y - x) : ys)
+flHandler (x:y:ys) "/"   = Just ((y / x) : ys)
+flHandler (x:y:ys) "^"   = Just ((y ** x) : ys)
+flHandler (x:xs) "ln"    = Just (log x : xs)
+flHandler xs "sum"       = Just ([sum xs])
+flHandler xs currentItem =  fmap (:xs) (readMaybe currentItem) 
+
+readMaybe :: (Read a) => String -> Maybe a
+readMaybe str =
+  case (reads str) of -- :t reads :i ReadS  | type ReadS a = String -> [(a, String)]
+    [(x, "")] -> Just x
+    _         -> Nothing
+
+reversePolishNotation :: String -> Maybe Double
+--reversePolishNotation items =  head (foldl flHandler [] (words items))
+--reversePolishNotation = head . foldl flHandler [] . words
+reversePolishNotation  st = do  
+    [result] <- foldM flHandler [] (words st)  
+    return result
