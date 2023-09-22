@@ -78,3 +78,4 @@ threeCoins = do
     b <- randomSt  
     c <- randomSt  
     return (a,b,c) 
+    

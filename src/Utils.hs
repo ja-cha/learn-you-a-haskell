@@ -71,15 +71,17 @@ take' n _
   | n <= 0 = []
 take' _ [] = []
 take' n (x:xs) = x : take' (n - 1) xs
+-- accumulated thus far -> current item -> updated accumulated
+flHandler :: [Double] -> String -> [Double]  
+flHandler (x:y:ys) "*" = (x * y):ys  
+flHandler (x:y:ys) "+" = (x + y):ys  
+flHandler (x:y:ys) "-" = (y - x):ys  
+flHandler (x:y:ys) "/" = (y / x):ys  
+flHandler (x:y:ys) "^" = (y ** x):ys  
+flHandler (x:xs) "ln" = log x:xs  
+flHandler xs "sum" = [sum xs]  
+flHandler xs currentItem = read currentItem:xs  
 
-
-reversePolishNotation :: String -> Float
-reversePolishNotation = head . foldl foldingFunction [] . words  
-    where   foldingFunction (x:y:ys) "*" = (x * y):ys  
-            foldingFunction (x:y:ys) "+" = (x + y):ys  
-            foldingFunction (x:y:ys) "-" = (y - x):ys  
-            foldingFunction (x:y:ys) "/" = (y / x):ys  
-            foldingFunction (x:y:ys) "^" = (y ** x):ys  
-            foldingFunction (x:xs) "ln" = log x:xs  
-            foldingFunction xs "sum" = [sum xs]  
-            foldingFunction xs numberString = read numberString:xs  
+reversePolishNotation :: String -> Double
+--reversePolishNotation  w =  head (foldl flHandler [] (words w))
+reversePolishNotation =  head . foldl flHandler [] . words

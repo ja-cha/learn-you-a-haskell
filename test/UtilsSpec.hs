@@ -41,3 +41,6 @@ main =
     describe "Reverse Polish notation" $
       it "4037 = 90 34 12 33 55 66 + * - + - " $
       4037 `shouldBe` reversePolishNotation "90 34 12 33 55 66 + * - + -"
+    describe "Reverse Polish notation 2" $
+      it "15 = 1 2 + 5 *" $
+      15 `shouldBe` reversePolishNotation "1 2 + 5 *"
